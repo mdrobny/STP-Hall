@@ -1,0 +1,15 @@
+@import "compass/reset";
+
+body {
+	margin: 0;
+	font: {
+		size: 16px;
+		family: Arial;
+	}
+	overflow: hidden;
+}
+
+.content {
+	position: relative;
+	z-index: 5;
+}
