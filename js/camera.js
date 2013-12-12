@@ -4,13 +4,7 @@ define([
 ],function () {
     var camera = {
         camera: null,
-        radius: 25,
-        theta: 45,
-        onMouseDownTheta: 45,
-        phi: 60,
-        onMouseDownPhi: 60,
-        onMouseDownPosition: new THREE.Vector2(),
-        isMouseDown: false,
+        moveSpeed: 0.07,
 
         init: function() {
             var viewAngle, aspect, near, far;
@@ -21,7 +15,9 @@ define([
             far = 1000;
 
             this.camera = new THREE.PerspectiveCamera(viewAngle, aspect, near, far);
-            this.camera.position.z = 3;
+//            this.camera.position.y = 1;
+            this.camera.position.z = 0;
+            this.camera.rotation.y = -45 * Math.PI/180;
 
             window.addEventListener( 'keydown', this.onKeyDown.bind(this) );
             window.addEventListener( 'keyup', this.onKeyUp.bind(this) );
@@ -111,29 +107,28 @@ define([
         },
 
         update: function() {
-            var moveSpeed = 0.07;
             if ( this.moveForward || ( this.autoForward && !this.moveBackward ) ) {
-                this.camera.translateZ( - ( moveSpeed ) );
+                this.camera.translateZ( - ( this.moveSpeed ) );
             }
             if ( this.moveBackward ) {
-                this.camera.translateZ( moveSpeed );
+                this.camera.translateZ( this.moveSpeed );
             }
 
             if ( this.moveLeft ) {
-                this.camera.rotateY( moveSpeed );
+                this.camera.rotateY( this.moveSpeed );
             }
             if ( this.moveRight ) {
-                this.camera.rotateY( - moveSpeed );
+                this.camera.rotateY( - this.moveSpeed );
             }
         },
 
-        _setCameraPosition: function() {
-            this.camera.position.x = this.radius * Math.sin( this.theta * Math.PI / 360 ) * Math.cos( this.phi * Math.PI / 360 );
-            this.camera.position.y = this.radius * Math.sin( this.phi * Math.PI / 360 );
-            this.camera.position.z = this.radius * Math.cos( this.theta * Math.PI / 360 ) * Math.cos( this.phi * Math.PI / 360 );
-            this.camera.lookAt(new THREE.Vector3(0,0,0));
-            this.camera.updateMatrix();
-        },
+//        _setCameraPosition: function() {
+//            this.camera.position.x = this.radius * Math.sin( this.theta * Math.PI / 360 ) * Math.cos( this.phi * Math.PI / 360 );
+//            this.camera.position.y = this.radius * Math.sin( this.phi * Math.PI / 360 );
+//            this.camera.position.z = this.radius * Math.cos( this.theta * Math.PI / 360 ) * Math.cos( this.phi * Math.PI / 360 );
+//            this.camera.lookAt(new THREE.Vector3(0,0,0));
+//            this.camera.updateMatrix();
+//        },
 
         get: function() {
             return this.camera;
